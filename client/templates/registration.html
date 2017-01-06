@@ -1,0 +1,19 @@
+<div ng-controller="registrationCtrl">
+    
+        <div class="jumbotron text-center container">
+            <div class="login container">
+                <div class="login-triangle"></div>
+                    <h2 class="login-header">Registration</h2>
+                    
+                        <form name="register" class="login-container" ng-submit="registrate(user)">
+                            <p><input type="text" placeholder="Nickname" ng-model="user.username" ></p>
+                            <p><input type="email" placeholder="Email"  ng-model="user.email"></p>
+                            <p><input type="password" placeholder="Password" ng-model="user.password" ></p>
+                            <p><input type="submit" value="Registrate"></p>
+                        </form>
+
+            
+                </div>
+        </div>
+</div>
+
