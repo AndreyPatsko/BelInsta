@@ -82,13 +82,18 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
    
         if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, function (result) {
+                console.log(result);
                 if (result.url) {
+// print here post to DB
+
+
                     // req.imageLink = result.url;
                     let image = new Image();
                     image.url = result.url;
                     image._owner = req.session._id;
                     image.save((error, response) => {
                         res.status(201).json(result.url)
+                        
                     })
                 } else {
                     res.json(error);
