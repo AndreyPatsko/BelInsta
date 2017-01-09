@@ -1,19 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const SALT_FACTOR = 10;
 
 let userSchema = mongoose.Schema({
     username: {type: String,required:true},
     email: {type:String,required:true},
     password: {type:String,required:true},
-    createdAt: {type: Date, default: Date.now},
-    pictures:[]   
+    createdAt: {type: Date, default: Date.now},  
 });
-
-
-
-
+ 
 let noop = function(){};
 
 userSchema.pre('save',function(done){

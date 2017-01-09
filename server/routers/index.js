@@ -29,7 +29,9 @@ router.get('/login',function(request,response){
 });
 
 router.get('/home',function(request,response){
-    response.redirect('/');
+    if(request.isAuthenticated){
+    response.redirect('/#/home');
+    }
 });
 
 router.post('/login', function(req, res, next) {
@@ -82,7 +84,7 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
    
         if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, function (result) {
-                console.log(result);
+                console.log(req.user);
                 if (result.url) {
 // print here post to DB
 
@@ -90,7 +92,7 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
                     // req.imageLink = result.url;
                     let image = new Image();
                     image.url = result.url;
-                    image._owner = req.session._id;
+                    image._owner = req.user._id;
                     image.save((error, response) => {
                         res.status(201).json(result.url)
                         
@@ -103,7 +105,15 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
             next();
         }
     });
-
+router.get('/images',function(request,response){
+    let pict = [];
+    Image.find({"_owner":request.user._id},function(err,files){
+        files.forEach(function(im){
+            pict.push(im.url)
+        })
+    })
+    response.status(200).json(pict);
+})
 
 router.post('/logout',function(request,response){
     request.logout();

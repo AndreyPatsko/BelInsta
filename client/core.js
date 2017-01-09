@@ -44,8 +44,17 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 .controller('MyCtrl',  function ($http,$scope, Upload, $timeout) {
-    
     let images = $scope.images = [];
+    
+    $http.get('/images')
+        .success(function(pict){
+            console.log(pict.data)
+            pict.data.forEach(function(img){
+                $scope.images.push({url:img})
+            })
+        })
+    
+    
     $scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
         $scope.errFiles = errFiles;
@@ -67,8 +76,6 @@ angular.module('app',['ngRoute','ngFileUpload'])
             }, function (evt) {
                 file.progress = Math.min(100, parseInt(100.0 * 
                                          evt.loaded / evt.total));
-            },function(images){
-                    $http.post('/images')
             });
         });
     }

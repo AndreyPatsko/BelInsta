@@ -14,6 +14,9 @@
             ng-bind="f.progress + '%'"></div>
       </span>
     </li>
+    <li ng-repeat="image in images">
+      <img ng-src="{{image.url}}">
+    </li>
     <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
     </li> 
   </ul>
