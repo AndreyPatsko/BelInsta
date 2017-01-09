@@ -70,7 +70,7 @@ router.post('/registration',function(request,response){
             request.flash('error','User already exists');
             return response.redirect('/registration');
         }
-        let newUser = new User({email:email,password:password,username:username});
+        let newUser = new User({email:email,password:password,username:username,private:true});
         newUser.save(function(err){
             if (err) console.log(err);
             
@@ -84,7 +84,6 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
    
         if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, function (result) {
-                console.log(req.user);
                 if (result.url) {
 // print here post to DB
 
@@ -108,12 +107,21 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
 router.get('/images',function(request,response){
     let pict = [];
     Image.find({"_owner":request.user._id},function(err,files){
-        files.forEach(function(im){
-            pict.push(im.url)
+        files.forEach(function(e){
+            pict.push(e.url)
         })
+        response.json(pict);
     })
-    response.status(200).json(pict);
 })
+
+router.post('/updateUser',function(request,response){
+    // console.log(request.body)
+    User.findByIdAndUpdate(request.user._id,{ $set: { private: request.body.profile }}, { new: true },function(err,data){
+        if (err) return handleError(err);
+        
+    })
+    response.send(true);
+})  
 
 router.post('/logout',function(request,response){
     request.logout();

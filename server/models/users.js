@@ -7,6 +7,7 @@ let userSchema = mongoose.Schema({
     username: {type: String,required:true},
     email: {type:String,required:true},
     password: {type:String,required:true},
+    private: Boolean,
     createdAt: {type: Date, default: Date.now},  
 });
  

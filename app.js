@@ -15,7 +15,7 @@ const setUpPassport = require('./setuppassport');
 
 let app = express();
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/belinsta');
+mongoose.connect('mongodb://admin:admin@ds159328.mlab.com:59328/belinsta');
 
 setUpPassport();
 

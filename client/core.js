@@ -45,11 +45,19 @@ angular.module('app',['ngRoute','ngFileUpload'])
 
 .controller('MyCtrl',  function ($http,$scope, Upload, $timeout) {
     let images = $scope.images = [];
-    
+    $scope.profile = true;
+
+    $scope.$watch('profile',function(){
+        // console.log($scope.profile)
+        $http.post('/updateUser',{profile:$scope.profile})
+            .success(function(){
+                console.log("good")
+            })
+    })
+
     $http.get('/images')
         .success(function(pict){
-            console.log(pict.data)
-            pict.data.forEach(function(img){
+            pict.forEach(function(img){
                 $scope.images.push({url:img})
             })
         })
@@ -68,7 +76,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
                 $timeout(function () {
                     file.result = response.data;
                     $scope.images.push({url:response.data});
-                    console.log($scope.images);
+                    // console.log($scope.images);
                 });
             }, function (response) {
                 if (response.status > 0)
