@@ -44,23 +44,50 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 .controller('MyCtrl',  function ($http,$scope, Upload, $timeout) {
-    let images = $scope.images = [];
+    $scope.images = [];
     $scope.profile = true;
+    $scope.users = [];
+
+    $scope.publickUsers = [];
+    
+      let getPublickUsers = function(){
+         
+        for(var i = 0; i < $scope.users.length; i++){
+            let pic = [];
+           
+            for(var j = 0; j < $scope.images.length; j++){
+             
+            if(($scope.users[i].private == false) && ($scope.images[j].owner == $scope.users[i].id)){
+                
+                pic.push($scope.images[j].url)
+              
+            }
+            }
+            $scope.publickUsers.push({username:$scope.users[i].username,url:pic})
+        }
+    }
+
+    $http.get('/users')
+        .success(function(users){
+            $scope.users = users;
+           
+        })
+    $http.get('/images')
+        .success(function(images){
+            $scope.images = images;
+            getPublickUsers();
+            console.log($scope.publickUsers)
+        })    
+    
+    
 
     $scope.$watch('profile',function(){
         // console.log($scope.profile)
         $http.post('/updateUser',{profile:$scope.profile})
             .success(function(){
-                console.log("good")
+                console.log('ok')
             })
     })
-
-    $http.get('/images')
-        .success(function(pict){
-            pict.forEach(function(img){
-                $scope.images.push({url:img})
-            })
-        })
     
     
     $scope.uploadFiles = function(files, errFiles) {

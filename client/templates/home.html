@@ -12,6 +12,7 @@
             Select Files</button>
         <br><br>
         Files:
+        
         <ul>
           <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
           <div ng-model="picFile"></div>
@@ -20,13 +21,22 @@
                   ng-bind="f.progress + '%'"></div>
             </span>
           </li>
-          <li ng-repeat="image in images">
+          
+          <li class='images' ng-repeat="image in images">
             <img ng-src="{{image.url}}">
           </li>
           <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
           </li> 
         </ul>
         {{errorMsg}}
+    </div>
+    <div class="jumbotron text-center container" ng-repeat="user in publickUsers">
+      {{user.username}}
+      <ul>
+        <li class="images" ng-repeat="pict in user.url">
+          <img ng-src="{{pict}}">
+        </li>
+      </ul>
     </div>
 </div>
 

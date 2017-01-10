@@ -1,6 +1,10 @@
 li{
     list-style: none;
 }
+.images {
+    display: inline-block;
+}
 li img {
     margin: 10px 0 10px 0;
+
 }
