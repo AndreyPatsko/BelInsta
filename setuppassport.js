@@ -13,7 +13,7 @@ module.exports = function() {
     });
 };
 
-passport.use("login", new LocalStrategy(
+passport.use("local", new LocalStrategy(
       function(username, password, done) {
         User.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }

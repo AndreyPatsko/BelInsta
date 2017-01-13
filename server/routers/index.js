@@ -35,7 +35,7 @@ router.get('/home',function(request,response){
 });
 
 router.post('/login', function(req, res, next) {
-  passport.authenticate('login', function(err, user, info) {
+  passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err);
     }
@@ -105,7 +105,8 @@ router.get('/users',function(request,response){
     
     let usersArray = [];
 
-  User.find({private:false},function(err,users){
+//   User.find({private:false},function(err,users){
+  User.find({__v:0},function(err,users){
        users.forEach(function(u){
            usersArray.push({username:u.username,id:u._id,private:u.private})
        })
@@ -139,7 +140,7 @@ router.post('/updateUser',function(request,response){
         if (err) return handleError(err);
         
     })
-    response.send(true);
+    response.redirect('/home');
 })  
 
 router.post('/logout',function(request,response){

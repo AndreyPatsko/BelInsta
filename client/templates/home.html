@@ -22,14 +22,15 @@
             </span>
           </li>
           
-          <li class='images' ng-repeat="image in images">
-            <img ng-src="{{image.url}}">
+          <li class='images' ng-repeat="image in currentUserImages">
+            <img ng-src="{{image}}">
           </li>
           <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
           </li> 
         </ul>
         {{errorMsg}}
     </div>
+    <h3>Public Users</h3>
     <div class="jumbotron text-center container" ng-repeat="user in publickUsers">
       {{user.username}}
       <ul>

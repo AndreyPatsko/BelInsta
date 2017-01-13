@@ -22,6 +22,21 @@ angular.module('app',['ngRoute','ngFileUpload'])
     $locationProvider.html5Mode(true);
 })
 
+
+.service('currentUser',function(){
+
+    var _currentUser;
+    return {
+        setName: function(name){
+            _currentUser = name;
+        },
+        getName: function(){
+            return _currentUser;
+        }
+    }
+
+})
+
 .controller('registrationCtrl',function($http,$scope, $location){
 
     $scope.registrate = function(user){
@@ -33,51 +48,91 @@ angular.module('app',['ngRoute','ngFileUpload'])
            
     }
 })
-.controller('loginCtrl',function($http,$scope, $location){
+.controller('loginCtrl',function($http,$scope, $location,currentUser){
     $scope.login = function(user){
         $http.post('/login',user)
             .success(function(){
+                currentUser.setName($scope.user.username);
                 $location.path('/home');
             })
     }
     
 })
 
-.controller('MyCtrl',  function ($http,$scope, Upload, $timeout) {
+.controller('MyCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
     $scope.images = [];
-    $scope.profile = true;
     $scope.users = [];
-
+    $scope.currentUser = currentUser.getName();
     $scope.publickUsers = [];
-    
-      let getPublickUsers = function(){
+    $scope.currentUserImages = [];
+    $scope.profile = getCurrentUserStatus();
+
+ function getCurrentUserStatus(){
+     for(var i = 0; i < $scope.users.length; i++){
+         if($scope.users[i].username == $scope.currentUser){
+             return $scope.user[i].private;
+         }
+     }
+ }
+
+ let getPublickUsers = function(){
          
         for(var i = 0; i < $scope.users.length; i++){
             let pic = [];
+           if($scope.users[i].private === false){
+                    for(var j = 0; j < $scope.images.length; j++){
+                    
+                            if( $scope.images[j].owner == $scope.users[i].id){
+                                
+                                pic.push($scope.images[j].url)
+                            }
+                    }
+            $scope.publickUsers.push({username:$scope.users[i].username,url:pic,private:$scope.users[i].private})
+           }
+        }
+ }
+
+    let getCurrentUserImages = function(){
+
+        for(var i = 0; i < $scope.users.length; i++){
            
-            for(var j = 0; j < $scope.images.length; j++){
-             
-            if(($scope.users[i].private == false) && ($scope.images[j].owner == $scope.users[i].id)){
-                
-                pic.push($scope.images[j].url)
-              
+            if($scope.users[i].username == $scope.currentUser){
+                for(var j = 0; j < $scope.images.length; j++){
+                    if($scope.users[i].id == $scope.images[j].owner){
+                         $scope.currentUserImages.push($scope.images[j].url)
+                    }
+                }
             }
-            }
-            $scope.publickUsers.push({username:$scope.users[i].username,url:pic})
         }
     }
+    
 
     $http.get('/users')
         .success(function(users){
             $scope.users = users;
-           
+           console.log(1)
         })
+
+
     $http.get('/images')
         .success(function(images){
-            $scope.images = images;
+            $scope.images = images
+            console.log(2)
+            // console.log($scope.currentUserImages);
+            // console.log($scope.currentUser);
+            console.log($scope.publickUsers);
+            // console.log($scope.images)
+            // console.log($scope.users)
+        })   
+        .then(function(){
+            console.log(3)
             getPublickUsers();
-            console.log($scope.publickUsers)
-        })    
+            
+        }) 
+        .then(function(){
+            console.log(4)
+            getCurrentUserImages();
+        })
     
     
 
