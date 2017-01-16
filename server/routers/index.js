@@ -140,7 +140,7 @@ router.post('/updateUser',function(request,response){
         if (err) return handleError(err);
         
     })
-    response.redirect('/home');
+    response.redirect('/#/home');
 })  
 
 router.post('/logout',function(request,response){

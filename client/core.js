@@ -140,7 +140,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
         // console.log($scope.profile)
         $http.post('/updateUser',{profile:$scope.profile})
             .success(function(){
-                console.log('ok')
+                console.log('ok') 
             })
     })
     
@@ -168,10 +168,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
                                          evt.loaded / evt.total));
             });
         });
-    }
-  
-
-    
+    }    
 })
 
 .controller('logoutCtrl',function($http,$scope, $location){
