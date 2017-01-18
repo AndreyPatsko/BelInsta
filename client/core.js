@@ -60,6 +60,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 .controller('MyCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
+    debugger;
     $scope.images = [];
     $scope.users = [];
     $scope.currentUser = currentUser.getName();
@@ -114,25 +115,25 @@ angular.module('app',['ngRoute','ngFileUpload'])
         })
 
 
-    $http.get('/images')
-        .success(function(images){
-            $scope.images = images
-            console.log(2)
-            // console.log($scope.currentUserImages);
-            // console.log($scope.currentUser);
-            console.log($scope.publickUsers);
-            // console.log($scope.images)
-            // console.log($scope.users)
-        })   
-        .then(function(){
-            console.log(3)
-            getPublickUsers();
+    // $http.get('/images')
+    //     .success(function(images){
+    //         $scope.images = images
+    //         console.log(2)
+    //         // console.log($scope.currentUserImages);
+    //         // console.log($scope.currentUser);
+    //         console.log($scope.publickUsers);
+    //         // console.log($scope.images)
+    //         // console.log($scope.users)
+    //     })   
+    //     .then(function(){
+    //         console.log(3)
+    //         getPublickUsers();
             
-        }) 
-        .then(function(){
-            console.log(4)
-            getCurrentUserImages();
-        })
+    //     }) 
+    //     .then(function(){
+    //         console.log(4)
+    //         getCurrentUserImages();
+    //     })
     
     
 
