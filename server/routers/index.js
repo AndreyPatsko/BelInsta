@@ -101,37 +101,8 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
             next();
         }
     });
-router.get('/users',function(request,response){
+
     
-    let usersArray = [];
-
-//   User.find({private:false},function(err,users){
-  User.find({__v:0},function(err,users){
-       users.forEach(function(u){
-           usersArray.push({username:u.username,id:u._id,private:u.private})
-       })
-      response.send(usersArray)
-   });
- })
-
- router.get('/images',function(request,response){
-    
-    let imagesArray = [];
-
-  Image.find({__v:0},function(err,images){
-       images.forEach(function(i){
-           imagesArray.push({owner:i._owner,url:i.url})
-       })
-      response.send(imagesArray)
-   });
- })
-
-    // Image.find({"_owner":request.user._id},function(err,files){
-    //     files.forEach(function(e){
-    //         pict.push(e.url)
-    //     })
-    //     response.json(pict);
-    // })
 
 
 router.post('/updateUser',function(request,response){
