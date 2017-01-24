@@ -60,10 +60,20 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 .controller('MyCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
-    
+    // debugger;
+    //     var curUser = currentUser.getName();
 
-    
-    
+    // $http.post('/currentUser',curUser)
+    //     .success(function(data){
+    //         $scope.currentUser = data;
+    //     })
+
+    $http.post('/publicUsers')
+        .success(function(data){
+            console.log(data)
+            $scope.users = data;
+        })
+
 
     // $scope.$watch('profile',function(){
     //     // console.log($scope.profile)
