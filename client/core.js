@@ -75,7 +75,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
          }
      }
  }
-   
+1111   
  let getPublickUsers = function(){
          
         for(var i = 0; i < $scope.users.length; i++){
