@@ -3,9 +3,12 @@ li{
 }
 .images {
     display: inline-block;
+    
 }
 li img {
-    margin: 10px 0 10px 0;
+    margin: 10px 10px;
+    width: 300px;
+    height: 200px;
 
 }
 h3 {

@@ -101,38 +101,74 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
             next();
         }
     });
-router.get('/users',function(request,response){
+
     
-    let usersArray = [];
+router.post('/getCurrentUserImages',function(request,response){
+    var currentImagesArray = [];
+    Image.find({"_owner":request.user.id},function(err,data){
+        if (err) throw err;
+        else{
+            data.forEach(function(im){
+                currentImagesArray.push(im.url)
+            })
+            response.json(currentImagesArray)
+        }
+    })  
+})
 
-//   User.find({private:false},function(err,users){
-  User.find({__v:0},function(err,users){
-       users.forEach(function(u){
-           usersArray.push({username:u.username,id:u._id,private:u.private})
-       })
-      response.send(usersArray)
-   });
- })
+router.post('/getCurrentUserProfile',function(request,response){
+    User.find({"_id": request.user.id},function(err,data){
+        if (err) throw err;
+        else{
+            response.send(data[0].private);
+        }
+    })
+})
 
- router.get('/images',function(request,response){
-    
-    let imagesArray = [];
+router.post('/publicUsers',function(request,response){
+    var usersArray = [];
+    User.find({"private":false},function(err,data){
+        if (err) throw err;
+        else {
+           data.forEach(function(element) {
+               usersArray.push({id:element._id,username:element.username})
+           }); 
+           response.json(usersArray)   
+        }
+    })
+})
 
-  Image.find({__v:0},function(err,images){
-       images.forEach(function(i){
-           imagesArray.push({owner:i._owner,url:i.url})
-       })
-      response.send(imagesArray)
-   });
- })
+router.post('/loadImages',function(request,response){
+   
+    var imagesArray = [];
+    Image.find({"_owner":request.body.id}, function(err,data){
+        if (err) throw err;
+        else{
+            data.forEach(function(im){
+                imagesArray.push(im.url)
+            })
+            response.json(imagesArray)
+        }
+    })
+})
 
-    // Image.find({"_owner":request.user._id},function(err,files){
-    //     files.forEach(function(e){
-    //         pict.push(e.url)
-    //     })
-    //     response.json(pict);
-    // })
 
+// usersArray.forEach(function(i){
+//               i.images=[];
+//                Image.find({"_owner":i.id},function(err,images){
+//                 //     console.log(i)
+//                 //    console.log(images)
+//                 // i.images.push(images.url)
+//                   images.forEach(function(j){
+                       
+//                       i.images.push(j.url)
+//                    })
+//                    responseArray.push(i)
+//                    console.log(responseArray)
+                   
+//                })
+            
+//            })
 
 router.post('/updateUser',function(request,response){
     // console.log(request.body)
