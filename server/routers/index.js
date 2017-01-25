@@ -115,7 +115,7 @@ router.post('/getCurrentUserImages',function(request,response){
         }
     })  
 })
-
+     
 router.post('/getCurrentUserProfile',function(request,response){
     User.find({"_id": request.user.id},function(err,data){
         if (err) throw err;
