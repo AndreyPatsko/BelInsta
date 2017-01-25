@@ -102,41 +102,66 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
         }
     });
 
-// router.post('/currentUser',function(request,response){
-//     console.log(request)
-// })
     
+router.post('/getCurrentUserImages',function(request,response){
+    var currentImagesArray = [];
+    Image.find({"_owner":request.user.id},function(err,data){
+        if (err) throw err;
+        else{
+            data.forEach(function(im){
+                currentImagesArray.push(im.url)
+            })
+            response.json(currentImagesArray)
+        }
+    })  
+})
+
+
+
 router.post('/publicUsers',function(request,response){
     var usersArray = [];
-    var responseArray =[];
     User.find({"private":false},function(err,data){
         if (err) throw err;
         else {
-            // console.log(data)
            data.forEach(function(element) {
                usersArray.push({id:element._id,username:element.username})
            }); 
-           usersArray.forEach(function(i){
-              i.images=[];
-               Image.find({"_owner":i.id},function(err,images){
-                //     console.log(i)
-                //    console.log(images)
-                // i.images.push(images.url)
-                  images.forEach(function(j){
-                       
-                      i.images.push(j.url)
-                   })
-                   responseArray.push(i)
-                   console.log(responseArray)
-               })
-            
-           })
-           
-           response.json(responseArray)
-    }
+           response.json(usersArray)   
+        }
     })
 })
 
+router.post('/loadImages',function(request,response){
+   
+    var imagesArray = [];
+    Image.find({"_owner":request.body.id}, function(err,data){
+        if (err) throw err;
+        else{
+            data.forEach(function(im){
+                imagesArray.push(im.url)
+            })
+            response.json(imagesArray)
+        }
+    })
+})
+
+
+// usersArray.forEach(function(i){
+//               i.images=[];
+//                Image.find({"_owner":i.id},function(err,images){
+//                 //     console.log(i)
+//                 //    console.log(images)
+//                 // i.images.push(images.url)
+//                   images.forEach(function(j){
+                       
+//                       i.images.push(j.url)
+//                    })
+//                    responseArray.push(i)
+//                    console.log(responseArray)
+                   
+//                })
+            
+//            })
 
 router.post('/updateUser',function(request,response){
     // console.log(request.body)

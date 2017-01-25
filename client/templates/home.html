@@ -31,10 +31,10 @@
         {{errorMsg}}
     </div>
     <h3>Public Users</h3>
-    <div class="jumbotron text-center container" ng-repeat="user in publickUsers">
+    <div class="jumbotron text-center container" ng-repeat="user in publickUsers" ng-click="loadImages(user)">
       {{user.username}}
       <ul>
-        <li class="images" ng-repeat="pict in user.url">
+        <li class="images" ng-repeat="pict in user.images">
           <img ng-src="{{pict}}">
         </li>
       </ul>

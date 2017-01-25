@@ -67,13 +67,22 @@ angular.module('app',['ngRoute','ngFileUpload'])
     //     .success(function(data){
     //         $scope.currentUser = data;
     //     })
+    $http.post('/getCurrentUserImages')  
+        .success(function(data){
+            $scope.currentUserImages = data;
+        })
+
 
     $http.post('/publicUsers')
         .success(function(data){
-            console.log(data)
-            $scope.users = data;
+            $scope.publickUsers = data;
         })
-
+    $scope.loadImages = function(user){
+        $http.post('/loadImages',user)
+            .success(function(data){
+                user.images = data;
+            })
+    }
 
     // $scope.$watch('profile',function(){
     //     // console.log($scope.profile)
