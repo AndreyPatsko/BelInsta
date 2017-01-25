@@ -60,18 +60,16 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 .controller('MyCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
-    // debugger;
-    //     var curUser = currentUser.getName();
-
-    // $http.post('/currentUser',curUser)
-    //     .success(function(data){
-    //         $scope.currentUser = data;
-    //     })
+    
     $http.post('/getCurrentUserImages')  
         .success(function(data){
             $scope.currentUserImages = data;
         })
-
+    $http.post('/getCurrentUserProfile')
+        .success(function(data){
+            console.log(data)
+            $scope.profile = data;
+        })
 
     $http.post('/publicUsers')
         .success(function(data){
@@ -84,13 +82,14 @@ angular.module('app',['ngRoute','ngFileUpload'])
             })
     }
 
-    // $scope.$watch('profile',function(){
-    //     // console.log($scope.profile)
-    //     $http.post('/updateUser',{profile:$scope.profile})
-    //         .success(function(){
-    //             console.log('ok') 
-    //         })
-    // })
+    $scope.$watch('profile',function(){
+        // console.log($scope.profile)
+        $http.post('/updateUser',{profile:$scope.profile})
+            .success(function(){
+                console.log('ok')
+                
+            })
+    })
     
     
     $scope.uploadFiles = function(files, errFiles) {

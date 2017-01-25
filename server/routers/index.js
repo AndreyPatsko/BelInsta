@@ -116,7 +116,14 @@ router.post('/getCurrentUserImages',function(request,response){
     })  
 })
 
-
+router.post('/getCurrentUserProfile',function(request,response){
+    User.find({"_id": request.user.id},function(err,data){
+        if (err) throw err;
+        else{
+            response.send(data[0].private);
+        }
+    })
+})
 
 router.post('/publicUsers',function(request,response){
     var usersArray = [];
