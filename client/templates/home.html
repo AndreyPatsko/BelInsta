@@ -1,43 +1,55 @@
 <div >
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-3 col-md-offset-9">
         <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" value="private" checked> Private </span>
         <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="publick"  >Public</input></span>
       </div>
-    </div>
-    <div class="jumbotron text-center container">
-        <h4>Upload on file select</h4>
-        <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
-                accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-            Select Files</button>
-        <br><br>
-        Files:
+    </div>-->
+    <div class="row">
+        <div class="col-md-3">
+          <div class="jumbotron text-center">
+            <h2>{{currentUser}}</h2>
+            <div class="portfolioPhoto text-center"></div>
+            <button type="button" class="btn btn-default" ng-click="setVisibleImages()"> Список моих фото</button>
+          <p>Мой профиль     
+            <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" value="private" checked> Private </span>
+        <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="publick"  >Public</input></span>
+          </p>
+          </div>
+          <button type="button" class="btn btn-default" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
+        </div>
         
-        <ul>
-          <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
-          <div ng-model="picFile"></div>
-            <span class="progress" ng-show="f.progress >= 0">
-              <div style="width:{{f.progress}}%"  
-                  ng-bind="f.progress + '%'"></div>
-            </span>
-          </li>
+    <div class="col-md-9">
+        <div class="jumbotron text-center ">
+          <ul class="ulImages">
+              <li class='images' ng-repeat="image in currentUserImages">
+                <img ng-src="{{image}}">
+              </li>
+              <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+              </li> 
+            </ul>
           
-          <li class='images' ng-repeat="image in currentUserImages">
-            <img ng-src="{{image}}">
-          </li>
-          <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
-          </li> 
-        </ul>
-        {{errorMsg}}
-    </div>
-    <h3>Public Users</h3>
-    <div class="jumbotron text-center container" ng-repeat="user in publickUsers" ng-click="loadImages(user)">
-      {{user.username}}
-      <ul>
-        <li class="images" ng-repeat="pict in user.images">
-          <img ng-src="{{pict}}">
-        </li>
-      </ul>
-    </div>
+            <h4>Upload on file select</h4>
+            <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                Select Files</button>
+            <br><br>
+            Files:
+            
+            <ul>
+              <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
+              <div ng-model="picFile"></div>
+                <span class="progress" ng-show="f.progress >= 0">
+                  <div style="width:{{f.progress}}%"  
+                      ng-bind="f.progress + '%'"></div>
+                </span>
+              </li>
+            </ul>
+            
+            {{errorMsg}}
+        </div>
+    </div> 
+    </div>  
+    
 </div>
 

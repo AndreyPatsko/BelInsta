@@ -18,6 +18,10 @@ angular.module('app',['ngRoute','ngFileUpload'])
         templateUrl:'./templates/home.html',
         controller:'MyCtrl'
     })
+    .when('/home/publicUsers',{
+        templateUrl:'./templates/publickUsers.html',
+        controller:'usersCtrl'
+    })
     .otherwise({redirectTo: '/login'});
     $locationProvider.html5Mode(true);
 })
@@ -59,7 +63,9 @@ angular.module('app',['ngRoute','ngFileUpload'])
     
 })
 
-.controller('MyCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
+.controller('MyCtrl',  function ($http,$scope ,$location, Upload, $timeout,currentUser) {
+
+    $scope.currentUser = currentUser.getName();
     
     $http.post('/getCurrentUserImages')  
         .success(function(data){
@@ -71,16 +77,17 @@ angular.module('app',['ngRoute','ngFileUpload'])
             $scope.profile = data;
         })
 
-    $http.post('/publicUsers')
-        .success(function(data){
-            $scope.publickUsers = data;
-        })
-    $scope.loadImages = function(user){
-        $http.post('/loadImages',user)
-            .success(function(data){
-                user.images = data;
-            })
+    
+
+    $scope.showAllPublicUsers = function(){
+        $location.path('/home/publicUsers');
     }
+    
+    $scope.setVisibleImages = function(){
+        var images = angular.element(document.querySelector(".ulImages"));
+        images.css('display','inline-block')
+    }    
+    
 
     $scope.$watch('profile',function(){
         // console.log($scope.profile)
@@ -116,6 +123,23 @@ angular.module('app',['ngRoute','ngFileUpload'])
             });
         });
     }    
+})
+
+
+.controller('usersCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
+
+$http.post('/publicUsers')
+        .success(function(data){
+            $scope.publickUsers = data;
+        })
+
+$scope.loadImages = function(user){
+        $http.post('/loadImages',user)
+            .success(function(data){
+                user.images = data;
+            })
+    }
+
 })
 
 .controller('logoutCtrl',function($http,$scope, $location){

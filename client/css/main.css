@@ -1,9 +1,12 @@
 li{
     list-style: none;
 }
-.images {
-    display: inline-block;
+.ulImages {
+    display: none;
     
+}
+.images{
+    display: inline-block;
 }
 li img {
     margin: 10px 10px;
@@ -13,4 +16,10 @@ li img {
 }
 h3 {
     text-align: center;
+}
+.portfolioPhoto{
+    height: 500px;
+    width: 300px;
+    background: white;
+    margin: 0 auto;
 }
