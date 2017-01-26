@@ -10,13 +10,14 @@
           <div class="jumbotron text-center">
             <h2>{{currentUser}}</h2>
             <div class="portfolioPhoto text-center"></div>
-            <button type="button" class="btn btn-default" ng-click="setVisibleImages()"> Список моих фото</button>
+            <button type="button" class="btn btn-default myPhoto" ng-click="setVisibleImages()"> Список моих фото</button>
           <p>Мой профиль     
             <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" value="private" checked> Private </span>
         <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="publick"  >Public</input></span>
           </p>
+          <button type="button" class="btn btn-default showPublic" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
           </div>
-          <button type="button" class="btn btn-default" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
+          
         </div>
         
     <div class="col-md-9">
@@ -29,7 +30,7 @@
               </li> 
             </ul>
           
-            <h4>Upload on file select</h4>
+            <h4>Выберите файл для загрузки</h4>
             <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
                     accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
                 Select Files</button>
