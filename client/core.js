@@ -98,8 +98,10 @@ angular.module('app',['ngRoute','ngFileUpload'])
     }
 
     $scope.deleteImage = function($index){
-        $scope.currentUserImages.slice($index,1)
-        console.log($index)
+        console.log($scope.currentUserImages)
+        $scope.currentUserImages.splice($index,1)
+        console.log($scope.currentUserImages)
+        // console.log($index)
     }
     
     
