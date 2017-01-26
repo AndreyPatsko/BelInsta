@@ -12,8 +12,8 @@
             <div class="portfolioPhoto text-center"></div>
             <button type="button" class="btn btn-default myPhoto" ng-click="setVisibleImages()"> Список моих фото</button>
           <p>Мой профиль     
-            <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" value="private" checked> Private </span>
-        <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="publick"  >Public</input></span>
+            <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </span>
+        <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
           </p>
           <button type="button" class="btn btn-default showPublic" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
           </div>
@@ -24,7 +24,8 @@
         <div class="jumbotron text-center ">
           <ul class="ulImages">
               <li class='images' ng-repeat="image in currentUserImages">
-                <img ng-src="{{image}}">
+                <img ng-src="{{image}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                <!--{{$index}}-->
               </li>
               <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
               </li> 
@@ -33,9 +34,9 @@
             <h4>Выберите файл для загрузки</h4>
             <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
                     accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-                Select Files</button>
+               Обзор</button>
             <br><br>
-            Files:
+            <!--Files:
             
             <ul>
               <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
@@ -47,7 +48,7 @@
               </li>
             </ul>
             
-            {{errorMsg}}
+            {{errorMsg}}-->
         </div>
     </div> 
     </div>  

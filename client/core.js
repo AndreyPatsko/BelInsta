@@ -88,15 +88,19 @@ angular.module('app',['ngRoute','ngFileUpload'])
         images.css('display','inline-block')
     }    
     
-
-    $scope.$watch('profile',function(){
-        // console.log($scope.profile)
+    $scope.changeProfile = function(){
+        console.log($scope.profile)
         $http.post('/updateUser',{profile:$scope.profile})
             .success(function(){
                 console.log('ok')
                 
             })
-    })
+    }
+
+    $scope.deleteImage = function($index){
+        $scope.currentUserImages.slice($index,1)
+        console.log($index)
+    }
     
     
     $scope.uploadFiles = function(files, errFiles) {
@@ -126,7 +130,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
 })
 
 
-.controller('usersCtrl',  function ($http,$scope , Upload, $timeout,currentUser) {
+.controller('usersCtrl',  function ($http,$scope , $location, Upload, $timeout,currentUser) {
 
 $http.post('/publicUsers')
         .success(function(data){
@@ -138,6 +142,10 @@ $scope.loadImages = function(user){
             .success(function(data){
                 user.images = data;
             })
+    }
+
+    $scope.backToProfile = function(){
+        $location.path('/home')
     }
 
 })
