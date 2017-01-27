@@ -29,13 +29,19 @@ angular.module('app',['ngRoute','ngFileUpload'])
 
 .service('currentUser',function(){
 
-    var _currentUser;
+    var _currentUser = {};
     return {
         setName: function(name){
-            _currentUser = name;
+            _currentUser.name = name;
         },
         getName: function(){
-            return _currentUser;
+            return _currentUser.name;
+        },
+        setRole: function(isAdmin){
+            _currentUser.isAdmin = isAdmin;
+        },
+        getRole: function(){
+            return _currentUser.isAdmin;
         }
     }
 
@@ -66,6 +72,8 @@ angular.module('app',['ngRoute','ngFileUpload'])
 .controller('MyCtrl',  function ($http,$scope ,$location, Upload, $timeout,currentUser) {
 
     $scope.currentUser = currentUser.getName();
+    $scope.isAdmin = currentUser.getRole;
+    // $scope.currentUser.isAdmin = currentUser.getRole();
     
     $http.post('/getCurrentUserImages')  
         .success(function(data){
@@ -73,8 +81,8 @@ angular.module('app',['ngRoute','ngFileUpload'])
         })
     $http.post('/getCurrentUserProfile')
         .success(function(data){
-            console.log(data)
-            $scope.profile = data;
+            currentUser.setRole(data.isAdmin);
+            $scope.profile = data.profile;
         })
 
     
@@ -89,7 +97,6 @@ angular.module('app',['ngRoute','ngFileUpload'])
     }    
     
     $scope.changeProfile = function(){
-        console.log($scope.profile)
         $http.post('/updateUser',{profile:$scope.profile})
             .success(function(){
                 console.log('ok')
@@ -98,10 +105,10 @@ angular.module('app',['ngRoute','ngFileUpload'])
     }
 
     $scope.deleteImage = function($index){
-        console.log($scope.currentUserImages)
-        $scope.currentUserImages.splice($index,1)
-        console.log($scope.currentUserImages)
-        // console.log($index)
+        $http.delete('/home/image/'+$scope.currentUserImages[$index].id)
+            .success(function(){
+                 $scope.currentUserImages.splice($index,1)
+            })
     }
     
     
@@ -117,8 +124,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
-                    $scope.images.push({url:response.data});
-                    // console.log($scope.images);
+                    $scope.currentUserImages.push({url:response.data.url,public_id:response.data.public_id});
                 });
             }, function (response) {
                 if (response.status > 0)
@@ -133,7 +139,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
 
 
 .controller('usersCtrl',  function ($http,$scope , $location, Upload, $timeout,currentUser) {
-
+    $scope.isAdmin = currentUser.getRole();
 $http.post('/publicUsers')
         .success(function(data){
             $scope.publickUsers = data;
@@ -143,7 +149,16 @@ $scope.loadImages = function(user){
         $http.post('/loadImages',user)
             .success(function(data){
                 user.images = data;
+                console.log(user.images)
             })
+    }
+
+    $scope.deleteImage = function(pict){
+        console.log(pict.id)
+        // $http.delete('/home/image/'+pict.id)
+        //     .success(function(){
+        //          $scope.currentUserImages.splice($index,1)
+        //     })
     }
 
     $scope.backToProfile = function(){

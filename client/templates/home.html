@@ -8,14 +8,15 @@
     <div class="row">
         <div class="col-md-3">
           <div class="jumbotron text-center">
-            <h2>{{currentUser}}</h2>
+            <h2>{{currentUser|uppercase}}</h2>
             <div class="portfolioPhoto text-center"></div>
             <button type="button" class="btn btn-default myPhoto" ng-click="setVisibleImages()"> Список моих фото</button>
           <p>Мой профиль     
             <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </span>
         <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
           </p>
-          <button type="button" class="btn btn-default showPublic" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
+          <button type="button" class="btn btn-default showPublic" ng-show="!isAdmin" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
+          <button type="button" class="btn btn-default showPublic" ng-show="isAdmin" ng-click="showAllPublicUsers()" >Показать всех пользователей</button>
           </div>
           
         </div>
@@ -24,7 +25,7 @@
         <div class="jumbotron text-center ">
           <ul class="ulImages">
               <li class='images' ng-repeat="image in currentUserImages">
-                <img ng-src="{{image}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                <img ng-src="{{image.url}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
                 <!--{{$index}}-->
               </li>
               <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}

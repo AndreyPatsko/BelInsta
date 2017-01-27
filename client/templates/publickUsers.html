@@ -1,10 +1,14 @@
  <button type="button" class="btn btn-default" ng-click="backToProfile()">Вернуться к профилю</button>
 <h3>Public Users</h3>
     <div class="jumbotron text-center container" ng-repeat="user in publickUsers" ng-click="loadImages(user)">
-      {{user.username}}
+      <span style="margin-right:50px">{{user.username|uppercase}}</span>
+      <div ng-show="isAdmin" class="adminUserProfile" >
+      <span ng-show="user.profile"><input ng-model="user.profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </span>
+        <span ng-show="!user.profile"><input ng-model="user.profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
+      </div>
       <ul>
         <li class="images" ng-repeat="pict in user.images">
-          <img ng-src="{{pict}}">
+          <img ng-src="{{pict.url}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage(pict)"></span>
         </li>
       </ul>
     </div>

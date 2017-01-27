@@ -8,7 +8,8 @@ let userSchema = mongoose.Schema({
     email: {type:String,required:true},
     password: {type:String,required:true},
     private: Boolean,
-    createdAt: {type: Date, default: Date.now},  
+    createdAt: {type: Date, default: Date.now},
+    isAdmin: Boolean  
 });
  
 let noop = function(){};

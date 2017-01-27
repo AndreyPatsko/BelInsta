@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 let imageSchema = mongoose.Schema({
      _owner: {type: String},
     // _owner: {type: Schema.Types.ObjectId, ref: 'User'},
-    url: String
+    url: String,
+    public_id: String
 });
 
 

@@ -87,10 +87,11 @@ router.post('/upload', multipartyMiddleware, function (req, res, next) {
                 if (result.url) {
                     // req.imageLink = result.url;
                     let image = new Image();
+                    image.public_id = result.public_id;
                     image.url = result.url;
                     image._owner = req.user._id;
                     image.save((error, response) => {
-                        res.status(201).json(result.url)
+                        res.status(201).json({public_id:result.public_id,url:result.url})
                         
                     })
                 } else {
@@ -109,7 +110,7 @@ router.post('/getCurrentUserImages',function(request,response){
         if (err) throw err;
         else{
             data.forEach(function(im){
-                currentImagesArray.push(im.url)
+                currentImagesArray.push({url:im.url,id:im.public_id})
             })
             response.json(currentImagesArray)
         }
@@ -117,16 +118,28 @@ router.post('/getCurrentUserImages',function(request,response){
 })
      
 router.post('/getCurrentUserProfile',function(request,response){
+   
     User.find({"_id": request.user.id},function(err,data){
         if (err) throw err;
         else{
-            response.send(data[0].private);
+            response.send({profile:data[0].private,isAdmin:data[0].isAdmin});
         }
     })
 })
 
 router.post('/publicUsers',function(request,response){
     var usersArray = [];
+    if(request.user.isAdmin){
+        User.find({__v:0},function(err,data){
+            if (err) throw err;
+            else{
+                data.forEach(function(element) {
+               usersArray.push({id:element._id,username:element.username,profile:element.private})
+           }); 
+           response.json(usersArray) 
+            }
+        })
+    }else{
     User.find({"private":false},function(err,data){
         if (err) throw err;
         else {
@@ -136,6 +149,7 @@ router.post('/publicUsers',function(request,response){
            response.json(usersArray)   
         }
     })
+    }
 })
 
 router.post('/loadImages',function(request,response){
@@ -145,7 +159,7 @@ router.post('/loadImages',function(request,response){
         if (err) throw err;
         else{
             data.forEach(function(im){
-                imagesArray.push(im.url)
+                imagesArray.push({url:im.url,id:im.public_id})
             })
             response.json(imagesArray)
         }
@@ -153,25 +167,18 @@ router.post('/loadImages',function(request,response){
 })
 
 
-// usersArray.forEach(function(i){
-//               i.images=[];
-//                Image.find({"_owner":i.id},function(err,images){
-//                 //     console.log(i)
-//                 //    console.log(images)
-//                 // i.images.push(images.url)
-//                   images.forEach(function(j){
-                       
-//                       i.images.push(j.url)
-//                    })
-//                    responseArray.push(i)
-//                    console.log(responseArray)
-                   
-//                })
-            
-//            })
+router.delete('/home/image/:id',function(request,response){
+    Image.remove({'public_id':request.params.id},function(){
+        cloudinary.api.delete_resources([request.params.id],
+            function(result){
+                response.status(200).send(true);
+            });
+    })
+})
+
+
 
 router.post('/updateUser',function(request,response){
-    // console.log(request.body)
     User.findByIdAndUpdate(request.user._id,{ $set: { private: request.body.profile }}, { new: true },function(err,data){
         if (err) return handleError(err);
         
