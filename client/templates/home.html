@@ -1,58 +1,38 @@
 <div >
-    <!--<div class="row">
-      <div class="col-md-3 col-md-offset-9">
-        <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" value="private" checked> Private </span>
-        <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="publick"  >Public</input></span>
-      </div>
-    </div>-->
     <div class="row">
         <div class="col-md-3">
           <div class="jumbotron text-center">
             <h2>{{currentUser|uppercase}}</h2>
-            <div class="portfolioPhoto text-center"></div>
-            <button type="button" class="btn btn-default myPhoto" ng-click="setVisibleImages()"> Список моих фото</button>
-          <p>Мой профиль     
-            <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </span>
-        <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
-          </p>
-          <button type="button" class="btn btn-default showPublic" ng-show="!isAdmin" ng-click="showAllPublicUsers()" >Показать паблик пользователей</button>
-          <button type="button" class="btn btn-default showPublic" ng-show="isAdmin" ng-click="showAllPublicUsers()" >Показать всех пользователей</button>
+                  <div class="portfolioPhoto text-center"></div>
+                  <button type="button" class="btn btn-default myPhoto" ng-click="setVisibleImages()"> Список моих фото</button>
+
+                  <p>Мой профиль     
+                  <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </input></span>
+                  <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
+                  </p>
+      
+                  <button type="button" class="btn btn-default showPublic"  ng-click="showAllPublicUsers()" >Показать пользователей</button>
           </div>
-          
         </div>
         
-    <div class="col-md-9">
-        <div class="jumbotron text-center ">
-          <ul class="ulImages">
-              <li class='images' ng-repeat="image in currentUserImages">
-                <img ng-src="{{image.url}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
-                <!--{{$index}}-->
-              </li>
-              <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
-              </li> 
-            </ul>
+        <div class="col-md-9">
+          <div class="jumbotron text-center ">
+              <ul class="ulImages">
+                <li class='images' ng-repeat="image in currentUserImages">
+                  <img ng-src="{{image.url}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                </li>
+                <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+                </li> 
+              </ul>
           
-            <h4>Выберите файл для загрузки</h4>
-            <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
-                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-               Обзор</button>
-            <br><br>
-            <!--Files:
-            
-            <ul>
-              <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
-              <div ng-model="picFile"></div>
-                <span class="progress" ng-show="f.progress >= 0">
-                  <div style="width:{{f.progress}}%"  
-                      ng-bind="f.progress + '%'"></div>
-                </span>
-              </li>
-            </ul>
-            
-            {{errorMsg}}-->
-        </div>
-    </div> 
+              <h4>Выберите файл для загрузки</h4>
+              <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">Обзор</button>
+              <br><br>
+           
+          </div>
+        </div> 
     </div>  
-    
+             
 </div>
 

@@ -1,4 +1,4 @@
-angular.module('app',['ngRoute','ngFileUpload'])
+angular.module('app',['ngRoute','ngFileUpload','ui.bootstrap'])
 
 .config(function($routeProvider, $locationProvider){
     $routeProvider
@@ -156,14 +156,8 @@ $scope.loadImages = function(user){
     }
 
     $scope.deleteImage = function(pict,user){
-        console.log($scope.publickUsers)
         $http.delete('/home/image/'+pict.id)
-            .success(function(){
-                
-                console.log(pict)
-                // user.images
-                //  $scope.users[$index].images.splice($index,1)
-            })
+            
     }
 
     $scope.backToProfile = function(){
@@ -178,6 +172,4 @@ $scope.loadImages = function(user){
             .success(function(){
                 $location.path('/login');
             })
-    }
-    
-)
+    })

@@ -33,3 +33,5 @@ h3 {
     display:inline-block;
     
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
