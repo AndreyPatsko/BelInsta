@@ -72,7 +72,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
 .controller('MyCtrl',  function ($http,$scope ,$location, Upload, $timeout,currentUser) {
 
     $scope.currentUser = currentUser.getName();
-    $scope.isAdmin = currentUser.getRole;
+   
     // $scope.currentUser.isAdmin = currentUser.getRole();
     
     $http.post('/getCurrentUserImages')  
@@ -85,7 +85,7 @@ angular.module('app',['ngRoute','ngFileUpload'])
             $scope.profile = data.profile;
         })
 
-    
+     $scope.isAdmin = currentUser.getRole();
 
     $scope.showAllPublicUsers = function(){
         $location.path('/home/publicUsers');
@@ -139,7 +139,10 @@ angular.module('app',['ngRoute','ngFileUpload'])
 
 
 .controller('usersCtrl',  function ($http,$scope , $location, Upload, $timeout,currentUser) {
+   
     $scope.isAdmin = currentUser.getRole();
+
+
 $http.post('/publicUsers')
         .success(function(data){
             $scope.publickUsers = data;
@@ -149,16 +152,18 @@ $scope.loadImages = function(user){
         $http.post('/loadImages',user)
             .success(function(data){
                 user.images = data;
-                console.log(user.images)
             })
     }
 
-    $scope.deleteImage = function(pict){
-        console.log(pict.id)
-        // $http.delete('/home/image/'+pict.id)
-        //     .success(function(){
-        //          $scope.currentUserImages.splice($index,1)
-        //     })
+    $scope.deleteImage = function(pict,user){
+        console.log($scope.publickUsers)
+        $http.delete('/home/image/'+pict.id)
+            .success(function(){
+                
+                console.log(pict)
+                // user.images
+                //  $scope.users[$index].images.splice($index,1)
+            })
     }
 
     $scope.backToProfile = function(){
