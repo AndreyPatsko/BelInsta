@@ -1,4 +1,4 @@
-angular.module('app',['ngRoute','ngFileUpload','ui.bootstrap'])
+angular.module('app',['ngRoute','ngFileUpload','ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 .config(function($routeProvider, $locationProvider){
     $routeProvider
@@ -69,7 +69,7 @@ angular.module('app',['ngRoute','ngFileUpload','ui.bootstrap'])
     
 })
 
-.controller('MyCtrl',  function ($http,$scope ,$location, Upload, $timeout,currentUser) {
+.controller('MyCtrl',  function ($http,$scope ,$location,$uibModal, Upload, $timeout,currentUser) {
 
     $scope.currentUser = currentUser.getName();
    
@@ -102,6 +102,12 @@ angular.module('app',['ngRoute','ngFileUpload','ui.bootstrap'])
                 console.log('ok')
                 
             })
+    }
+
+    $scope.openModal = function(image){
+        var modalInstance = $uibModal.open({
+            template: '<img ng-src="'+image+'" ></image>'
+        })
     }
 
     $scope.deleteImage = function($index){
@@ -138,7 +144,7 @@ angular.module('app',['ngRoute','ngFileUpload','ui.bootstrap'])
 })
 
 
-.controller('usersCtrl',  function ($http,$scope , $location, Upload, $timeout,currentUser) {
+.controller('usersCtrl',  function ($http,$scope , $location,$uibModal, Upload, $timeout,currentUser) {
    
     $scope.isAdmin = currentUser.getRole();
 
@@ -154,6 +160,12 @@ $scope.loadImages = function(user){
                 user.images = data;
             })
     }
+$scope.changeThisProfile = function(user){
+    $http.post('/updateThisUser',{user:user,profile:user.profile})
+            .success(function(){
+                console.log('ok1')  
+            })
+}
 
     $scope.deleteImage = function(pict,user){
         $http.delete('/home/image/'+pict.id)
@@ -163,6 +175,22 @@ $scope.loadImages = function(user){
     $scope.backToProfile = function(){
         $location.path('/home')
     }
+
+    $scope.openModal = function(image){
+
+        var modalInstance = $uibModal.open({
+            templateUrl: 'templates/modal.html',
+            controller: function($scope, $uibModal, $uibModalInstance){
+                $scope.image = $uibModalInstance.image
+            }
+        })
+        modalInstance.image = image;
+    }
+
+})
+
+.controller('modalCtrl', function($uibModal, $log, $document){
+    var $ctrl = this;
 
 })
 

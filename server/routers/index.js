@@ -31,6 +31,8 @@ router.get('/login',function(request,response){
 router.get('/home',function(request,response){
     if(request.isAuthenticated){
     response.redirect('/#/home');
+    }else{
+        response.redirect('/#/login');  //not working yet. need jwt may be
     }
 });
 
@@ -184,6 +186,12 @@ router.post('/updateUser',function(request,response){
         
     })
     response.redirect('/#/home');
+})
+router.post('/updateThisUser',function(request,response){
+    User.findByIdAndUpdate(request.body.user.id,{$set:{private: request.body.profile}},{new:true},function(err,data){
+        if(err) return handleError(err);
+    })
+    response.send(true);
 })  
 
 router.post('/logout',function(request,response){

@@ -19,7 +19,7 @@
           <div class="jumbotron text-center ">
               <ul class="ulImages">
                 <li class='images' ng-repeat="image in currentUserImages">
-                  <img ng-src="{{image.url}}"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
                 </li>
                 <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
                 </li> 
